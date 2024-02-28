@@ -1,0 +1,15 @@
+.skeleton {
+    width: 100%;
+    height: 100%;
+    background-color: #adadad; /* Cor de fundo */
+    animation: pulse 0.9s infinite alternate; /* Animação de pulsação */
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6; /* Opacidade inicial */
+    }
+    100% {
+        opacity: 1; /* Opacidade final */
+    }
+}
