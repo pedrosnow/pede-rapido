@@ -6,9 +6,13 @@ import { ProdutosMock } from "@/app/shared/mock/Produtos.mock";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SkeletonSelecionarProduto from "@/app/components/Skeleton/SkeletonSelecionarProduto";
+import Modal from "@/app/components/Modal/Modal";
+import Loading from "@/app/components/Loading/Loading";
+import { ShowDetalhePedido } from "@/app/components/ShowDetalhePedido";
 
 export default function cardapio() {
-  const [isloading, setloading] = useState(true);
+  const [isSkeleton, setSkeleton] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
   const pathname = usePathname();
   const route = useRouter();
@@ -29,7 +33,7 @@ export default function cardapio() {
     {
       id: 1,
       titulo: "Todos",
-      url: "/page/cardapio",
+      url: "/page/home",
     },
     {
       id: 2,
@@ -51,23 +55,25 @@ export default function cardapio() {
 
   useEffect(() => {
     setTimeout(() => {
-      setloading(false);
-    }, 3000);
+      setSkeleton(false);
+    }, 100);
   }, []);
 
   return (
     <div className="p-[20px]">
       <Header></Header>
-
-      {isloading ? (
+      <ShowDetalhePedido></ShowDetalhePedido>
+      <Modal isopen={isLoading}>
+        <section className="w-full h-full flex justify-center items-center">
+          <Loading color="azul"></Loading>
+        </section>
+      </Modal>
+      {isSkeleton ? (
         <SkeletonSelecionarProduto></SkeletonSelecionarProduto>
       ) : (
         <div className="mt-[10px] overflow-y-auto">
           <h1 className="text-[1.3em] font-medium">Menu</h1>
           <div className="flex w-full mt-3 overflow-x-scroll container">
-            {/* {categorias.slice(0, 3).map((item, index) => (
-                            <span key={index} className={`inline-block me-3 ${pathname == item.url ? 'bg-[#FBA834]' : 'border-1 border-[#e2e2e2] bg-[#ffff]'} ps-5 pe-5 pt-2 pb-2 rounded-full`}>{item.titulo}</span>
-                        ))} */}
             {categorias.map((item, index) => (
               <span
                 key={index}
@@ -114,7 +120,8 @@ export default function cardapio() {
                     </div>
                     <Button
                       onClick={() => {
-                        route.push(`detalhe/${item.id}`);
+                        // setLoading(true);
+                        // route.push(`detalhe/${item.id}`);
                       }}
                       className="mt-[15px] w-full bg-[#FBA834]"
                     >
